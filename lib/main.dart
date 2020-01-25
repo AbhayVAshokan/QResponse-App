@@ -3,6 +3,7 @@ import './widgets/camera_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shake_event/shake_event.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,23 +28,32 @@ class MyApp extends StatelessWidget {
 }
 
 class QResponse extends StatefulWidget {
+  final DatabaseReference database = FirebaseDatabase.instance.reference().child("hackverse");
+
+  sendData(double lat, double long) {
+    database.push().set({
+      'latitude':   lat,
+      'longitude': long
+    });
+  }
+
   @override
   _QResponseState createState() => _QResponseState();
 }
 
-class _QResponseState extends State<QResponse> with ShakeHandler{
+class _QResponseState extends State<QResponse> with ShakeHandler {
   @override
   void dispose() {
     resetShakeListeners();
     super.dispose();
   }
-  
+
   @override
   shakeEventListener() async {
     print("Accident Occured!!");
-    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-    print(position.latitude.toString());
-    print(position.longitude.toString());
+    Position position = await Geolocator()
+        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    widget.sendData(position.latitude.toDouble(), position.longitude.toDouble());
     return super.shakeEventListener();
   }
 
