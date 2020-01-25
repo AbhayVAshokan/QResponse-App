@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './widgets/camera_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shake_event/shake_event.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,8 +39,11 @@ class _QResponseState extends State<QResponse> with ShakeHandler{
   }
   
   @override
-  shakeEventListener() {
-    print("Phone is shaking");
+  shakeEventListener() async {
+    print("Accident Occured!!");
+    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    print(position.latitude.toString());
+    print(position.longitude.toString());
     return super.shakeEventListener();
   }
 
@@ -61,7 +65,7 @@ class _QResponseState extends State<QResponse> with ShakeHandler{
   @override
   Widget build(BuildContext context) {
     startListeningShake(75);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

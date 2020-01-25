@@ -22,12 +22,12 @@ dependencies:
   camera: ^0.5.7+3
   image_picker: ^0.6.3+1
   google_fonts: ^0.3.3
-  google_maps_flutter: ^0.5.11
   shake_event: ^0.0.4
   firebase_core: ^0.4.0+9
   firebase_analytics: ^5.0.2
   cloud_firestore: ^0.12.9+5
-
+  google_maps_flutter: ^0.5.11
+  geolocator: ^5.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
