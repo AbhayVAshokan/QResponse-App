@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './widgets/camera_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shake_event/shake_event.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,7 +30,19 @@ class QResponse extends StatefulWidget {
   _QResponseState createState() => _QResponseState();
 }
 
-class _QResponseState extends State<QResponse> {
+class _QResponseState extends State<QResponse> with ShakeHandler{
+  @override
+  void dispose() {
+    resetShakeListeners();
+    super.dispose();
+  }
+  
+  @override
+  shakeEventListener() {
+    print("Phone is shaking");
+    return super.shakeEventListener();
+  }
+
   void showBottomNavigation(context) {
     showModalBottomSheet(
         context: context,
@@ -47,6 +60,8 @@ class _QResponseState extends State<QResponse> {
 
   @override
   Widget build(BuildContext context) {
+    startListeningShake(75);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(

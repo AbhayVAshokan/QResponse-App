@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "98768578088",
+    "firebase_url": "https://hackverse-1579951297563.firebaseio.com",
+    "project_id": "hackverse-1579951297563",
+    "storage_bucket": "hackverse-1579951297563.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98768578088:android:147afe3ad62ff5b5efb71d",
+        "android_client_info": {
+          "package_name": "com.example.qresponse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98768578088-9l648rnuq2s3niho61e9qsjugsli6a5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qresponse",
+            "certificate_hash": "9b74fdfe522042900bffa28918afff8208ccfafd"
+          }
+        },
+        {
+          "client_id": "98768578088-a8ihpgnjoups7kn5j3144ash1oq479uq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcXi1GrSmekboEUPDJ83jynNJAJJDFtcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98768578088-a8ihpgnjoups7kn5j3144ash1oq479uq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
