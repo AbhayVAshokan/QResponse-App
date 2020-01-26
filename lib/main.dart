@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shake_event/shake_event.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,13 +29,11 @@ class MyApp extends StatelessWidget {
 }
 
 class QResponse extends StatefulWidget {
-  final DatabaseReference database = FirebaseDatabase.instance.reference().child("hackverse");
+  final DatabaseReference database = FirebaseDatabase.instance.reference();
 
   sendData(double lat, double long) {
-    database.push().set({
-      'latitude':   lat,
-      'longitude': long
-    });
+    database.child('latitude').set(lat);
+    database.child('longitude').set(long);
   }
 
   @override
@@ -42,6 +41,7 @@ class QResponse extends StatefulWidget {
 }
 
 class _QResponseState extends State<QResponse> with ShakeHandler {
+  var count = 0;
   @override
   void dispose() {
     resetShakeListeners();
@@ -51,13 +51,34 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
   @override
   shakeEventListener() async {
     print("Accident Occured!!");
+    _sendSMS(message, recipents);
+    _showDialog();
     Position position = await Geolocator()
         .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-    widget.sendData(position.latitude.toDouble(), position.longitude.toDouble());
+    widget.sendData(
+        position.latitude.toDouble(), position.longitude.toDouble());
     return super.shakeEventListener();
   }
+String message = "I met with an accident!! Help!!";
+List<String> recipents = ["+919562655170"];
+
+  void _sendSMS(String message, List<String> recipents) async {
+ String _result = await FlutterSms
+        .sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+print(_result);
+}
 
   void showBottomNavigation(context) {
+    if (count == 0) {
+      widget.sendData(10, 20);
+    }
+
+    setState(() {
+      count++;
+    });
     showModalBottomSheet(
         context: context,
         builder: (_) {
@@ -72,9 +93,36 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
         });
   }
 
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          backgroundColor: Colors.red,
+          title: Text("ACCIDENT OCCURED!!",
+              style: GoogleFonts.lato(
+                  textStyle: TextStyle(fontWeight: FontWeight.bold))),
+          content: Text("EMERGENCY SERVICES ON THE WAY!!!",
+              style: GoogleFonts.lato()),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    startListeningShake(75);
+    startListeningShake(5);
 
     return Scaffold(
       appBar: AppBar(
@@ -85,12 +133,18 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
             fontWeight: FontWeight.bold,
           )),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.trending_up),
+            onPressed: () => showBottomNavigation(context),
+          ),
+        ],
       ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         margin: EdgeInsets.all(10),
-        color: Colors.white,
+        color: Colors.grey,
         child: Stack(
           children: <Widget>[
             CameraWidget(),

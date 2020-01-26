@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:location/location.dart';
 
 class CameraWidget extends StatefulWidget {
   @override
@@ -18,8 +18,20 @@ class _CameraWidgetState extends State<CameraWidget> {
     });
   }
 
+
+  // var location = new Location();
+  // Map<String, double> userLocation;
+  // Future<void> getLocation() async {
+  //   setState(() async {
+  //     userLocation = (await location.getLocation()) as Map<String, double>;
+      
+  //   });
+  //   print("SPEED: " + userLocation["speed"].toString());
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // getLocation();
     return Column(
       children: <Widget>[
         RaisedButton(
