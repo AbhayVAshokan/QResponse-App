@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
 }
 
 class QResponse extends StatefulWidget {
-  final DatabaseReference database = FirebaseDatabase.instance.reference();
+  final DatabaseReference database = FirebaseDatabase.instance.reference().child('location');
 
   sendData(double lat, double long) {
-    database.child('latitude').set(lat);
-    database.child('longitude').set(long);
+    database.child('lat').set(lat);
+    database.child('lng').set(long);
   }
 
   @override
@@ -52,24 +52,26 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
   shakeEventListener() async {
     print("Accident Occured!!");
     _sendSMS(message, recipents);
-    _showDialog();
+    _showDialog(context);
     Position position = await Geolocator()
         .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     widget.sendData(
         position.latitude.toDouble(), position.longitude.toDouble());
+        print("Speed: " + position.speed.toString());
     return super.shakeEventListener();
   }
-String message = "I met with an accident!! Help!!";
-List<String> recipents = ["+919562655170"];
+
+  String message = "I met with an accident!! Help!!";
+  List<String> recipents = ["+919562655170"];
 
   void _sendSMS(String message, List<String> recipents) async {
- String _result = await FlutterSms
-        .sendSMS(message: message, recipients: recipents)
-        .catchError((onError) {
+    String _result =
+        await FlutterSms.sendSMS(message: message, recipients: recipents)
+            .catchError((onError) {
       print(onError);
     });
-print(_result);
-}
+    print(_result);
+  }
 
   void showBottomNavigation(context) {
     if (count == 0) {
@@ -93,7 +95,8 @@ print(_result);
         });
   }
 
-  void _showDialog() {
+  void _showDialog(BuildContext context) {
+    // Navigator.of(context).pop();
     // flutter defined function
     showDialog(
       context: context,
@@ -122,7 +125,7 @@ print(_result);
 
   @override
   Widget build(BuildContext context) {
-    startListeningShake(5);
+    startListeningShake(75);
 
     return Scaffold(
       appBar: AppBar(
@@ -144,7 +147,7 @@ print(_result);
         width: double.infinity,
         height: double.infinity,
         margin: EdgeInsets.all(10),
-        color: Colors.grey,
+        color: Colors.black54,
         child: Stack(
           children: <Widget>[
             CameraWidget(),
