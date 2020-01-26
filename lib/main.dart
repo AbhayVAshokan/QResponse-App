@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
 }
 
 class QResponse extends StatefulWidget {
-  final DatabaseReference database = FirebaseDatabase.instance.reference().child('location');
+  final DatabaseReference database =
+      FirebaseDatabase.instance.reference().child('location');
 
   sendData(double lat, double long) {
     database.child('lat').set(lat);
@@ -57,7 +58,7 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
         .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     widget.sendData(
         position.latitude.toDouble(), position.longitude.toDouble());
-        print("Speed: " + position.speed.toString());
+    print("Speed: " + position.speed.toString());
     return super.shakeEventListener();
   }
 
@@ -123,9 +124,14 @@ class _QResponseState extends State<QResponse> with ShakeHandler {
     );
   }
 
+  void dummyLocation() async {
+    widget.sendData(10.0137, 76.32);
+  }
+
   @override
   Widget build(BuildContext context) {
     startListeningShake(75);
+    dummyLocation();
 
     return Scaffold(
       appBar: AppBar(
