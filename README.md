@@ -1,16 +1,25 @@
-# qresponse
+# Q-Response
 
-A new Flutter project.
+HackVerse hackathon NIT-K Surathkal. A software to alert traffic police in case of potential accidents.
 
-## Getting Started
+1. Flutter Mobile Application: UI for the user side. Measures overspeeding.
+2. React Website: UI for the traffic police. Uses Google Maps API.
+3. DarkNet Object Detection: Model to detect accidents.
 
-This project is a starting point for a Flutter application.
+### Setup
 
-A few resources to get you started if this is your first Flutter project:
+1. Create a Firebase project and update `App.js` file in `Traffic Cop Website` folder.
+2. Run the following commands
+```
+flutter pub get
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+python3 -m venv venv
+cd darknet
+make
+wget https://pjreddie.com/media/files/yolov3.weights
+Run darknet detector
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+cd Traffic\ Cop\ Website
+npm install
+npm start
+```
